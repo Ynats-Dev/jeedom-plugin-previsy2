@@ -7,10 +7,14 @@ class previsy2 extends eqLogic {
     public function postSave() { 
         
         // Mise à jours des commandes
-        previsy2_cmd::createAllCmd($this);
+        $delCmd = previsy2_cmd::createAllCmd($this);
 
         // Récupération données et enregistrement des JSON
         previsy2_metier::allSynchro(); 
+        
+        if($delCmd == TRUE) {
+            ajax::success(utils::o2a($this));
+        }
         
     }
          
@@ -33,7 +37,7 @@ class previsy2Cmd extends cmd {
      */
 
     public function execute($_options = array()) {
-
+        
     }
 
     /*     * **********************Getteur Setteur*************************** */

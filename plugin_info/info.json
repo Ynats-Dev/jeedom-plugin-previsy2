@@ -9,8 +9,8 @@
 	"author" : "Ynats",
         "require" : "3.3",
 	"category" : "weather",
-	"changelog" : "https://ynats.github.io\/jeedom-plugin-previsy\/#language#/changelog",
-	"documentation" : "https:\/\/ynats.github.io\/jeedom-plugin-previsy\/#language#/",
+	"changelog" : "https://ynats.github.io\/jeedom-plugin-previsy2\/#language#/changelog",
+	"documentation" : "https:\/\/ynats.github.io\/jeedom-plugin-previsy2\/#language#/",
 	"link" : {
 		"forum":"https://community.jeedom.com/t/plugin-previsy/29588/10"
 	},

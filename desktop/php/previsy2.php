@@ -142,7 +142,7 @@ $type_degre = config::byKey('type_degre', 'previsy2', "°C");
             <div role="tabpanel" class="tab-pane" id="alertestab">
                 
                 <div class="form-group" style="margin: 15px;">
-                    <div class="alert alert-info">Les paramètres se cumulent et vous permettent de créer des filtre sur mesure (ex. Gébérer une alerte quand il pleut et que le vent souffle du Sud ou Sud-Est à au moins 30 km/h.</div>
+                    <div class="alert alert-info">Les paramètres se cumulent et vous permettent de créer des filtres sur mesure (ex. Générer une alerte quand il pleut et que le vent souffle du Sud ou Sud-Est à au moins 30 km/h.</div>
                 </div>
                 
                 <form class="form-horizontal">

@@ -46,29 +46,34 @@ class previsy2_config extends eqLogic {
             $return["alertes"]["neige"] = 1;
         }
         
-        $vent = $_eqLogic->getConfiguration("vent", NULL);
+        $vent = $_eqLogic->getConfiguration("seuilVent", NULL);
         if ($vent != NULL) {
             $return["alertes"]["vent"] = $vent;
         }
         
-        $vent_dir = $_eqLogic->getConfiguration("vent_dir", NULL);
+        $vent_dir = $_eqLogic->getConfiguration("directionVent", NULL);
         if ($vent_dir != NULL) {
             $return["alertes"]["vent_dir"] = $vent_dir;
         }
         
-        $vent_dir2 = $_eqLogic->getConfiguration("vent_dir2", NULL);
+        $vent_dir2 = $_eqLogic->getConfiguration("directionVent2", NULL);
         if ($vent_dir2 != NULL) {
             $return["alertes"]["vent_dir2"] = $vent_dir2;
         }
         
-        $vent_dir3 = $_eqLogic->getConfiguration("vent_dir3", NULL);
+        $vent_dir3 = $_eqLogic->getConfiguration("directionVent3", NULL);
         if ($vent_dir3 != NULL) {
             $return["alertes"]["vent_dir3"] = $vent_dir3;
         }
         
-        $vent_dir4 = $_eqLogic->getConfiguration("vent_dir4", NULL);
+        $vent_dir4 = $_eqLogic->getConfiguration("directionVent4", NULL);
         if ($vent_dir4 != NULL) {
             $return["alertes"]["vent_dir4"] = $vent_dir4;
+        }
+        
+        $vent_dir5 = $_eqLogic->getConfiguration("directionVent5", NULL);
+        if ($vent_dir5 != NULL) {
+            $return["alertes"]["vent_dir5"] = $vent_dir5;
         }
         
         $temperature_min = $_eqLogic->getConfiguration("temperatureMin", NULL);

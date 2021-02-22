@@ -62,7 +62,7 @@ class previsy2_metier extends eqLogic {
             $datas = previsy2_json::getJson(previsy2_json::$_jsonDatas.$_previsy2->getId().".json"); 
 
             log::add('previsy2', 'debug', '---------------------------------------------------------------------------------------');
-            log::add('previsy2', 'debug', "#". $_id . "> Traitement des données " . $datas["infos_localisation"]["ville"] . "(" . $datas["infos_localisation"]["latitude"] . ", " . $datas["infos_localisation"]["longitude"] . ")");
+            log::add('previsy2', 'debug', "#". $_previsy2->getId() . "> Traitement des données " . $datas["infos_localisation"]["ville"] . "(" . $datas["infos_localisation"]["latitude"] . ", " . $datas["infos_localisation"]["longitude"] . ")");
             
             if(!empty($datas["alertes"][1])){
             
@@ -76,69 +76,101 @@ class previsy2_metier extends eqLogic {
                         $_previsy2->checkAndUpdateCmd("alerte_" . $key . "_duree" , $alerte["date"]["stats"]["nb_heure"]);
 
                         // Alertes liées aux types d'averses (pluie)
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_pluie_min", $alerte["pluie"]["stats"]["min"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_pluie_max", $alerte["pluie"]["stats"]["max"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_pluie_moyenne", $alerte["pluie"]["stats"]["moyenne"]);
+                        if ($_previsy2->getConfiguration("pluie") == 1) {
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_pluie_min", $alerte["pluie"]["stats"]["min"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_pluie_max", $alerte["pluie"]["stats"]["max"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_pluie_moyenne", $alerte["pluie"]["stats"]["moyenne"]);
+                        }
 
                         // Alertes liées aux types d'averses (neige)
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_neige_min", $alerte["neige"]["stats"]["min"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_neige_max", $alerte["neige"]["stats"]["max"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_neige_moyenne", $alerte["neige"]["stats"]["moyenne"]);
+                        if ($_previsy2->getConfiguration("neige") == 1) {
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_neige_min", $alerte["neige"]["stats"]["min"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_neige_max", $alerte["neige"]["stats"]["max"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_neige_moyenne", $alerte["neige"]["stats"]["moyenne"]);
+                        }
 
                         // Alertes liées au vent (beaufort)
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_vent_beaufort_min", $alerte["vent_10m"]["stats"]["min"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_vent_beaufort_max", $alerte["vent_10m"]["stats"]["max"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_vent_beaufort_moyenne", $alerte["vent_10m"]["stats"]["moyenne"]);
-
-                        $dir_vent_cadran = array_unique($alerte["dir_vent_cadran"]["data"]); var_dump($dir_vent_cadran);
+                        if ($_previsy2->getConfiguration("seuilVent", NULL) != NULL) {
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_vent_beaufort_min", $alerte["vent_10m"]["stats"]["min"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_vent_beaufort_max", $alerte["vent_10m"]["stats"]["max"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_vent_beaufort_moyenne", $alerte["vent_10m"]["stats"]["moyenne"]);
+                        }
                         
-
-                        // Alertes liées au vent (sens du vent)
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_vent_orientation", NULL);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_vent_orientation2", NULL);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_vent_orientation3", NULL);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_vent_orientation4", NULL);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_vent_orientation5", NULL);
+                        $dir_vent_cadran = array_unique($alerte["dir_vent_cadran"]["data"]); 
+                        
+                        foreach ($dir_vent_cadran as $sensVent) { 
+                            if($sensVent == $_previsy2->getConfiguration("directionVent", NULL)){
+                                $_previsy2->checkAndUpdateCmd("alerte_".$key."_vent_orientation", $sensVent);
+                            }
+                            elseif($sensVent == $_previsy2->getConfiguration("directionVent2", NULL)){
+                                $_previsy2->checkAndUpdateCmd("alerte_".$key."_vent_orientation2", $sensVent);
+                            }
+                            elseif($sensVent == $_previsy2->getConfiguration("directionVent3", NULL)){
+                                $_previsy2->checkAndUpdateCmd("alerte_".$key."_vent_orientation3", $sensVent);
+                            }
+                            elseif($sensVent == $_previsy2->getConfiguration("directionVent4", NULL)){
+                                $_previsy2->checkAndUpdateCmd("alerte_".$key."_vent_orientation4", $sensVent);
+                            }
+                            elseif($sensVent == $_previsy2->getConfiguration("directionVent5", NULL)){
+                                $_previsy2->checkAndUpdateCmd("alerte_".$key."_vent_orientation5", $sensVent);
+                            }
+                        }
 
                         //Alertes liées à la température (Min)
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_temperature_min_min", $alerte["temperature"]["stats"]["min"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_temperature_min_max", $alerte["temperature"]["stats"]["max"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_temperature_min_moyenne", $alerte["temperature"]["stats"]["moyenne"]);
+                        if ($_previsy2->getConfiguration("temperatureMin", NULL) != NULL) {
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_temperature_min_min", $alerte["temperature"]["stats"]["min"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_temperature_min_max", $alerte["temperature"]["stats"]["max"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_temperature_min_moyenne", $alerte["temperature"]["stats"]["moyenne"]);
+                        }
 
                         //Alertes liées à la température (Max)
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_temperature_max_min", $alerte["temperature"]["stats"]["min"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_temperature_max_max", $alerte["temperature"]["stats"]["max"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_temperature_max_moyenne", $alerte["temperature"]["stats"]["moyenne"]);
-
+                        if ($_previsy2->getConfiguration("temperatureMax", NULL) != NULL) {
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_temperature_max_min", $alerte["temperature"]["stats"]["min"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_temperature_max_max", $alerte["temperature"]["stats"]["max"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_temperature_max_moyenne", $alerte["temperature"]["stats"]["moyenne"]);
+                        }
+                        
                         //Alertes liées au refroidissement éolien (ou température ressentie) (Min)
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_refroidissement_min_min", $alerte["refroidissement-eolien"]["stats"]["min"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_refroidissement_min_max", $alerte["refroidissement-eolien"]["stats"]["max"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_refroidissement_min_moyenne", $alerte["refroidissement-eolien"]["stats"]["moyenne"]);
+                        if ($_previsy2->getConfiguration("refroidissementMin", NULL) != NULL) {
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_refroidissement_min_min", $alerte["refroidissement-eolien"]["stats"]["min"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_refroidissement_min_max", $alerte["refroidissement-eolien"]["stats"]["max"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_refroidissement_min_moyenne", $alerte["refroidissement-eolien"]["stats"]["moyenne"]);
+                        }
 
                         //Alertes liées au refroidissement éolien (ou température ressentie) (Max)
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_refroidissement_max_min", $alerte["refroidissement-eolien"]["stats"]["min"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_refroidissement_max_max", $alerte["refroidissement-eolien"]["stats"]["max"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_refroidissement_max_moyenne", $alerte["refroidissement-eolien"]["stats"]["moyenne"]);
+                        if ($_previsy2->getConfiguration("refroidissementMax", NULL) != NULL) {
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_refroidissement_max_min", $alerte["refroidissement-eolien"]["stats"]["min"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_refroidissement_max_max", $alerte["refroidissement-eolien"]["stats"]["max"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_refroidissement_max_moyenne", $alerte["refroidissement-eolien"]["stats"]["moyenne"]);
+                        }
 
                         //Alertes liées au pourcentage d'humidité (Min)
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_humidite_min_min", $alerte["humidite_pourc"]["stats"]["min"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_humidite_min_max", $alerte["humidite_pourc"]["stats"]["max"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_humidite_min_moyenne", $alerte["humidite_pourc"]["stats"]["moyenne"]);
+                        if ($_previsy2->getConfiguration("humiditeMin", NULL) != NULL) {
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_humidite_min_min", $alerte["humidite_pourc"]["stats"]["min"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_humidite_min_max", $alerte["humidite_pourc"]["stats"]["max"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_humidite_min_moyenne", $alerte["humidite_pourc"]["stats"]["moyenne"]);
+                        }
 
                         //Alertes liées au pourcentage d'humidité (Max)
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_humidite_max_min", $alerte["humidite_pourc"]["stats"]["min"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_humidite_max_max", $alerte["humidite_pourc"]["stats"]["max"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_humidite_max_moyenne", $alerte["humidite_pourc"]["stats"]["moyenne"]);
+                        if ($_previsy2->getConfiguration("humiditeMax", NULL) != NULL) {
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_humidite_max_min", $alerte["humidite_pourc"]["stats"]["min"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_humidite_max_max", $alerte["humidite_pourc"]["stats"]["max"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_humidite_max_moyenne", $alerte["humidite_pourc"]["stats"]["moyenne"]);
+                        }
 
                         //Alertes liées à la pression atmosphérique (Min)
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_pression_min_min", $alerte["pression"]["stats"]["min"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_pression_min_max", $alerte["pression"]["stats"]["max"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_pression_min_moyenne", $alerte["pression"]["stats"]["moyenne"]);            
+                        if ($_previsy2->getConfiguration("pressionMin", NULL) != NULL) {
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_pression_min_min", $alerte["pression"]["stats"]["min"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_pression_min_max", $alerte["pression"]["stats"]["max"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_pression_min_moyenne", $alerte["pression"]["stats"]["moyenne"]);
+                        }
 
                         //Alertes liées à la pression atmosphérique (Max)
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_pression_max_min", $alerte["pression"]["stats"]["min"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_pression_max_max", $alerte["pression"]["stats"]["max"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_".$key."_pression_max_moyenne", $alerte["pression"]["stats"]["moyenne"]);
+                        if ($_previsy2->getConfiguration("pressionMax", NULL) != NULL) {
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_pression_max_min", $alerte["pression"]["stats"]["min"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_pression_max_max", $alerte["pression"]["stats"]["max"]);
+                            $_previsy2->checkAndUpdateCmd("alerte_".$key."_pression_max_moyenne", $alerte["pression"]["stats"]["moyenne"]);
+                        }
 
                     }
                 }
