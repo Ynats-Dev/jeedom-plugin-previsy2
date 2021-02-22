@@ -1,0 +1,99 @@
+<div class="eqLogic eqLogic-widget allowResize" data-eqType="#eqType#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" data-translate-category="#translate_category#" data-category="#category#" data-tags="#tags#" style="width: #width#;height: #height#;min-height:245px;#style#;">
+    <span class="cmd refresh pull-right cursor" data-cmd_id="#refresh_id#">
+        <i class="fas fa-sync"></i>
+    </span>
+    <span class="cmd cmd-widget" data-cmd_id="#refresh_id#" style="display:none;"></span>
+    <center class="widget-name">
+        <span class="reportModeVisible">#name_display#<span class="object_name">#object_name#</span></span>
+        <a href="#eqLink#" class="reportModeHidden">#name_display#<span class="object_name">#object_name#</span></a>
+    </center>
+
+    #alerte_01_widget#
+    #alerte_02_widget#
+    #alerte_03_widget#
+    #alerte_04_widget#
+    #alerte_05_widget#
+
+    <script>
+        $('.eqLogic[data-eqLogic_uid=#uid#] .cmd').on('click', function () {
+            jeedom.cmd.execute({id: $(this).data('cmd_id')});
+        }); 
+    </script>
+    <style>
+        
+    .previsyWidget{
+        border: 1px dotted grey;
+        padding: 5px;
+        margin: 0 5px 5px 5px;
+        float:left;
+        text-align: center;
+    }  
+
+    .previsyBlock{
+        margin:5px; 
+        text-align: center; 
+        display: inline-block; 
+        float:left;
+    }
+    
+    .previsyBlock1{
+        width: 120px;
+    }
+
+    .previsyBlock2{
+        width: 120px;
+    }
+    
+    .previsyBlock3{
+        width: 120px;
+    }
+    
+    .previsyBlock4{
+        width: 120px;
+    }
+    
+    .previsyBlock5{
+        width: 120px;
+    }
+    
+    .previsyBlockMoyenne{
+        text-align: center; 
+        width: 100%; 
+        margin: 2px;
+        height: 90px;
+    }
+
+    .previsyBlockMinMax{
+        text-align: center; 
+        width: 100%; 
+        margin: 2px;
+    }
+
+    .previsySubBlock{ 
+        text-align: center; 
+        margin: 0px 5px;
+        width: 42px;
+    }
+   
+    .previsySubBlock_G{
+        float:left;
+    }
+       
+    .previsySubBlock_D{
+        float:right;
+    }
+    
+    .previsySubTitleMoyenne{
+        font-size: 0.7em;
+    }
+    
+    .previsySubMoyenne{
+        font-size: 0.6em;
+    }
+    
+    .previsySubChiffreMoyenne{
+        font-size: 1.5em;
+    }
+
+</style>
+</div>
