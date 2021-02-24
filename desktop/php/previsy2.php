@@ -184,15 +184,17 @@ $type_degre = config::byKey('type_degre', 'previsy2', "°C");
                             <div class="col-sm-3">
                                 <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="seuilVent">
                                     <option value="">{{Pas d'alertes liées à la forte du vent}}</option>
-                                    <option value="20">{{[Force 4] Moyenne du vent à partir de 20 km/h (Jolie brise)}}</option>
-                                    <option value="29">{{[Force 5] Moyenne du vent à partir de 29 km/h (Bonne brise)}}</option>
-                                    <option value="39">{{[Force 6] Moyenne du vent à partir de 39 km/h (Vent frais)}}</option>
-                                    <option value="50">{{[Force 7] Moyenne du vent à partir de 50 km/h (Grand frais)}}</option>
-                                    <option value="62">{{[Force 8] Moyenne du vent à partir de 62 km/h (Coup de vent)}}</option>
-                                    <option value="75">{{[Force 9] Moyenne du vent à partir de 75 km/h (Fort coup de vent)}}</option>
-                                    <option value="89">{{[Force 10] Moyenne du vent à partir de 89 km/h (Tempête)}}</option>
-                                    <option value="103">{{[Force 11] Moyenne du vent à partir de 103 km/h (Violente tempête)}}</option>
-                                    <option value="118">{{[Force 12] Moyenne du vent à partir de 118 km/h (Ouragan)}}</option>
+                                    <option value="2">{{[Force 2] Alerte à partir de 6 km/h (Légère brise)}}</option>
+                                    <option value="3">{{[Force 3] Alerte à partir de 12 km/h (Petite brise)}}</option>
+                                    <option value="4">{{[Force 4] Alerte à partir de 20 km/h (Jolie brise)}}</option>
+                                    <option value="5">{{[Force 5] Alerte à partir de 29 km/h (Bonne brise)}}</option>
+                                    <option value="6">{{[Force 6] Alerte à partir de 39 km/h (Vent frais)}}</option>
+                                    <option value="7">{{[Force 7] Alerte à partir de 50 km/h (Grand frais)}}</option>
+                                    <option value="8">{{[Force 8] Alerte à partir de 62 km/h (Coup de vent)}}</option>
+                                    <option value="9">{{[Force 9] Alerte à partir de 75 km/h (Fort coup de vent)}}</option>
+                                    <option value="10">{{[Force 10] Alerte à partir de 89 km/h (Tempête)}}</option>
+                                    <option value="11">{{[Force 11] Alerte à partir de 103 km/h (Violente tempête)}}</option>
+                                    <option value="12">{{[Force 12] Alerte à partir de 118 km/h (Ouragan)}}</option>
                                 </select>
                             </div>
                         </div>

@@ -17,6 +17,19 @@ class previsy2 extends eqLogic {
         }
         
     }
+    
+    public static function cronHourly() {
+        $eqLogics = eqLogic::byType('previsy2');
+        foreach ($eqLogics as $previsy2) {
+            if ($previsy2->getIsEnable() == 1) {
+                // Récupération données et enregistrement des JSON
+                previsy2_metier::allSynchro();
+                
+                log::add('previsy2', 'debug', '---------------------------------------------------------------------------------------');
+                log::add('previsy2', 'debug', __('cronHourly :. ', __FILE__) . __('Lancement pour #ID# ', __FILE__) . $previsy2->getId());
+            }
+        }
+    }
          
 }
 

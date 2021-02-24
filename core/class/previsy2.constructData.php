@@ -10,7 +10,7 @@ class previsy2_constructData extends eqLogic {
 
         $return["execution"] = $_array["execution"];
 
-        $return["execution"]["script"]["date"] = intval(date("Ymdh"));
+        $return["execution"]["script"]["date"] = intval(date("YmdH"));
 
         $return["infos_localisation"] = $_array["infos_localisation"];
 
@@ -22,7 +22,7 @@ class previsy2_constructData extends eqLogic {
 
             foreach ($arrayJour["heures"] as $heures => $valHeures) {
 
-                if (!empty($valHeures["date"]) AND $return["execution"]["script"]["date"] <= $valHeures["date"]) {
+                if (!empty($valHeures["date"]) AND $return["execution"]["script"]["date"] <= $valHeures["date"]) { 
 
                     $match = 0;
 
@@ -37,7 +37,7 @@ class previsy2_constructData extends eqLogic {
                     }
 
                     // Alertes Vent
-                    if (isset($_config["vent"]) AND previsy2_tools::seuilVentBeaufort($valHeures["vent_10m"]) >= $_config["vent_dir"]) {
+                    if (isset($_config["vent"]) AND previsy2_tools::seuilVentBeaufort($valHeures["vent_10m"]) >= $_config["vent"]) {
                         $match++;
                     }
 

@@ -33,6 +33,14 @@ class previsy2_cmd extends eqLogic {
         }
     }
     
+    public function clearCmd($_previsy2) {
+        foreach ($_previsy2->getCmd() as $cmd) {
+            if ($cmd->getLogicalId() != 'refresh') {
+                $_previsy2->checkAndUpdateCmd($cmd->getLogicalId(), NULL);
+            }
+        }
+    }
+    
     public static function createAllCmd($_this){
         
         $delCmd = FALSE;
