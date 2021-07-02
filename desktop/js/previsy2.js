@@ -27,3 +27,19 @@ $('#bt_previsy2Debug').off('click').on('click', function () {
     $('#md_modal').dialog({title: "{{Debug}}"});
     $('#md_modal').load('index.php?v=d&plugin=previsy2&modal=debug').dialog('open');
 });
+
+function on_neige(){
+    $('input[data-l2key=no_neige]').prop('checked', false);
+}
+
+function on_no_neige(){
+    $('input[data-l2key=neige]').prop('checked', false);
+}
+
+function on_pluie(){
+    $('input[data-l2key=no_pluie]').prop('checked', false);
+}
+
+function on_no_pluie(){
+    $('input[data-l2key=pluie]').prop('checked', false);
+}

@@ -48,12 +48,16 @@ class previsy2_cmd extends eqLogic {
         $nbAlerte = previsy2_config::getConfigNbAlerte();
         
         for ($alerte = 1; $alerte <= $nbAlerte; $alerte++) {
+
+            self::createCmd(["LogicalId" => "refresh", "Name" => "Rafraîchir", "Historized" => 0, "Visible" => 1, "Type" => "action", "SubType" => "other"], $_this);
             
             // Informations de datation de l'alerte
             self::createCmd(["LogicalId" => "alerte_".$alerte."_debut", "Name" => "Alerte_".$alerte."_Debut", "Historized" => 1, "Visible" => 0, "Type" => "info", "SubType" => "numeric", "Unite" => NULL], $_this);
             self::createCmd(["LogicalId" => "alerte_".$alerte."_fin", "Name" => "Alerte_".$alerte."_Fin", "Historized" => 1, "Visible" => 0, "Type" => "info", "SubType" => "numeric", "Unite" => NULL], $_this);
             self::createCmd(["LogicalId" => "alerte_".$alerte."_duree", "Name" => "Alerte_".$alerte."_Duree", "Historized" => 1, "Visible" => 0, "Type" => "info", "SubType" => "numeric", "Unite" => NULL], $_this);
 
+            self::createCmd(["LogicalId" => "alerte_personalize", "Name" => "Alerte_Personalize", "Historized" => 0, "Visible" => 0, "Type" => "info", "SubType" => "string", "Unite" => NULL], $_this);            
+            
             // Alertes liées aux types d'averses (pluie)
             if ($_this->getConfiguration("pluie") == 1) { 
                 self::createCmd(["LogicalId" => "alerte_" . $alerte . "_pluie_min", "Name" => "Alerte_" . $alerte . "_Pluie_Min", "Historized" => 1, "Visible" => 0, "Type" => "info", "SubType" => "numeric", "Unite" => NULL], $_this);

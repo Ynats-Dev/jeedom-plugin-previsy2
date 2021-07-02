@@ -56,7 +56,7 @@ $type_degre = config::byKey('type_degre', 'previsy2', "°C");
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation"><a href="#" class="eqLogicAction" aria-controls="home" role="tab" data-toggle="tab" data-action="returnToThumbnailDisplay"><i class="fa fa-arrow-circle-left"></i></a></li>
             <li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fas fa-tachometer-alt"></i> {{Equipement}}</a></li>
-            <li role="presentation"><a href="#alertestab" aria-controls="home" role="tab" data-toggle="tab"><i class="fas fa-tachometer-alt"></i> {{Les alertes}}</a></li>
+            <li role="presentation"><a href="#alertestab" aria-controls="home" role="tab" data-toggle="tab"><i class="fas fa-exclamation-triangle"></i> {{Les alertes}}</a></li>
             <li role="presentation"><a href="#commandtab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Commandes}}</a></li>
         </ul>
         <div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
@@ -151,21 +151,62 @@ $type_degre = config::byKey('type_degre', 'previsy2', "°C");
                         
                         <div class="form-group" style="margin-top: 15px;">
                             <div class="col-sm-7">
-                                <div style="background-color: #039be5; padding: 2px 5px; color: white; margin: 10px 0; font-weight: bold;">Alertes liées aux types d'averses</div>
+                                <div style="background-color: #039be5; padding: 2px 5px; color: white; margin: 10px 0; font-weight: bold;">Message à afficher au moment de l'alerte.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label class="col-sm-3 control-label">{{Message}}</label>
+                            <div class="col-sm-3">
+                                <textarea type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="message_alerte"></textarea>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                    
+                    <fieldset>
+                        
+                        <div class="form-group" style="margin-top: 15px;">
+                            <div class="col-sm-7">
+                                <div style="background-color: #039be5; padding: 2px 5px; color: white; margin: 10px 0; font-weight: bold;">Alertes liées à la pluie</div>
                             </div>
                         </div>
                         
                         <div class="form-group" style="margin-top: 15px;">
                             <label class="col-sm-3 control-label">{{Alerte s'il pleut}}</label>
                             <div class="col-sm-3">
-                                <input type="checkbox" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="pluie">
+                                <input type="checkbox" class="eqLogicAttr form-control previsy2_pluie" data-l1key="configuration" data-l2key="pluie" onclick="on_pluie()">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label class="col-sm-3 control-label">{{Alerte s'il ne pleut pas}}
+                            <sup><i class="fa fa-question-circle tooltips" title="{{A ne renseigner que si vous souhaitez recevoir une alerte s'il ne pleut pas (ex. Revevoir une alerte pour faire de la voile quand il y a du vent et qu'il ne pleut pas)}}"></i></sup>
+                            </label>
+                            <div class="col-sm-3">
+                                <input type="checkbox" class="eqLogicAttr form-control previsy2_no_pluie" data-l1key="configuration" data-l2key="no_pluie" onclick="on_no_pluie()">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 15px;">
+                            <div class="col-sm-7">
+                                <div style="background-color: #039be5; padding: 2px 5px; color: white; margin: 10px 0; font-weight: bold;">Alertes liées à la neige</div>
                             </div>
                         </div>
                         
                         <div class="form-group" style="margin-top: 15px;">
                             <label class="col-sm-3 control-label">{{Alerte s'il neige}}</label>
                             <div class="col-sm-3">
-                                <input type="checkbox" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="neige">
+                                <input type="checkbox" class="eqLogicAttr form-control previsy2_neige" data-l1key="configuration" data-l2key="neige" onclick="on_neige()">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label class="col-sm-3 control-label">{{Alerte s'il ne neige pas}}
+                            <sup><i class="fa fa-question-circle tooltips" title="{{A ne renseigner que si vous souhaitez recevoir une alerte s'il ne neige pas (ex. Revevoir une alerte pour allez faire du ski quand il ne neige pas.)}}"></i></sup>
+                            </label>
+                            <div class="col-sm-3">
+                                <input type="checkbox" class="eqLogicAttr form-control previsy2_no_neige" data-l1key="configuration" data-l2key="no_neige" onclick="on_no_neige()">
                             </div>
                         </div>
 

@@ -29,7 +29,6 @@ if (!isConnect()) {
             <div class="col-lg-2" style="right:15px; position: absolute;">
                 <select onchange="previsy2_mode_plugin()" class="configKey form-control" data-l1key="mode_plugin" id="previsy2_mode">
                     <option value="normal">{{Mode normal}}</option>
-                    <option value="advanced">{{Mode avancé}}</option>
                     <option value="debug">{{Mode debug}}</option>
                 </select>
             </div>

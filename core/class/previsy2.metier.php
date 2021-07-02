@@ -68,6 +68,8 @@ class previsy2_metier extends eqLogic {
             log::add('previsy2', 'debug', "#". $_previsy2->getId() . "> Traitement des données " . $datas["infos_localisation"]["ville"] . "(" . $datas["infos_localisation"]["latitude"] . ", " . $datas["infos_localisation"]["longitude"] . ")");
             
             if(!empty($datas["alertes"][1])){ 
+                
+                $_previsy2->checkAndUpdateCmd("alerte_personalize" , $_previsy2->getConfiguration("message_alerte"));
             
                 foreach ($datas["alertes"] as $key => $alerte) { 
                     
@@ -75,7 +77,7 @@ class previsy2_metier extends eqLogic {
 
                         // Informations de datation de l'alerte
                         $_previsy2->checkAndUpdateCmd("alerte_" . $key . "_debut" , $alerte["date"]["stats"]["min"]);
-                        $_previsy2->checkAndUpdateCmd("alerte_" . $key . "_fin" , $alerte["date"]["stats"]["max"]);
+                        $_previsy2->checkAndUpdateCmd("alerte_" . $key . "_fin" , ($alerte["date"]["stats"]["max"]+1));
                         $_previsy2->checkAndUpdateCmd("alerte_" . $key . "_duree" , $alerte["date"]["stats"]["nb_heure"]);
 
                         // Alertes liées aux types d'averses (pluie)
