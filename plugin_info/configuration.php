@@ -47,19 +47,7 @@ if (!isConnect()) {
                 </select>
             </div>
         </div>
-        
-        <br />
-        
-        <div class="form-group">
-            <label class="col-lg-4 control-label">{{Température}}</label>
-            <div class="col-lg-2">
-                <select class="configKey form-control" data-l1key="type_degre">
-                    <option value="°C">{{Degrés Celsius (°C)}}</option>
-                    <option value="°F">{{Degrés Fahrenheit (°F)}}</option>
-                </select>
-            </div>
-        </div>
-       
+         
     <br />
   </fieldset>
     

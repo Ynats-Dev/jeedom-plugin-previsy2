@@ -43,3 +43,42 @@ function on_pluie(){
 function on_no_pluie(){
     $('input[data-l2key=pluie]').prop('checked', false);
 }
+
+function verif_temp(){
+    if($('input[data-l2key=temperatureMin]').val() > 0 & $('input[data-l2key=temperatureMax]').val() > 0 & $('input[data-l2key=temperatureMin]').val() > $('input[data-l2key=temperatureMax]').val()){
+        $('#previsy2_verif_temp').show();
+        $('#previsy2_verif_temp_txt').text("Cette condition n'est pas possible. L'alerte ne peut pas se déclancher si la température est au dessous de " + $('input[data-l2key=temperatureMin]').val() + "° ET au dessus de " + $('input[data-l2key=temperatureMax]').val() + "°.");
+    } else {
+        $('#previsy2_verif_temp').hide();
+    }
+}
+
+function verif_temp_refroid(){
+    if($('input[data-l2key=refroidissementMin]').val() > 0 & $('input[data-l2key=refroidissementMax]').val() > 0 & $('input[data-l2key=refroidissementMin]').val() > $('input[data-l2key=refroidissementMax]').val()){
+        $('#previsy2_verif_temp_refroid').show();
+        $('#previsy2_verif_temp_refroid_txt').text("Cette condition n'est pas possible. L'alerte ne peut pas se déclancher si la température ressentie est au dessous de " + $('input[data-l2key=refroidissementMin]').val() + "° ET au dessus de " + $('input[data-l2key=refroidissementMax]').val() + "°.");
+    }
+    else {
+        $('#previsy2_verif_temp_refroid').hide();
+    }
+}
+
+function verif_humide(){
+    if($('input[data-l2key=humiditeMin]').val() > 0 & $('input[data-l2key=humiditeMax]').val() > 0 & $('input[data-l2key=humiditeMin]').val() > $('input[data-l2key=humiditeMax]').val()){
+        $('#previsy2_verif_humide').show();
+        $('#previsy2_verif_humide_txt').text("Cette condition n'est pas possible. L'alerte ne peut pas se déclancher si l'humidité est au dessous de " + $('input[data-l2key=humiditeMin]').val() + "% ET au dessus de " + $('input[data-l2key=humiditeMax]').val() + "%.");
+    }
+    else {
+        $('#previsy2_verif_humide').hide();
+    }
+}
+
+function verif_pression(){
+    if($('input[data-l2key=pressionMin]').val() > 0 & $('input[data-l2key=pressionMax]').val() > 0 & $('input[data-l2key=pressionMin]').val() > $('input[data-l2key=pressionMax]').val()){
+        $('#previsy2_verif_pression').show();
+        $('#previsy2_verif_pression_txt').text("Cette condition n'est pas possible. L'alerte ne peut pas se déclancher si la pression est au dessous de " + $('input[data-l2key=pressionMin]').val() + "hPa ET au dessus de " + $('input[data-l2key=pressionMax]').val() + "hPa.");
+    }
+    else {
+        $('#previsy2_verif_pression').hide();
+    }
+}
