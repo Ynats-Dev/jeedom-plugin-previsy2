@@ -54,7 +54,8 @@ class previsy2 extends eqLogic {
             
             preg_match_all('!\d+!',$cmd->getLogicalId(),$i);
             
-            $u = $i[0][0];
+            if(isset($i[0][0])) { $u = $i[0][0]; }
+            else { $u = NULL; }
 
             if($cmd->execCmd() > 0){
                 array_push($arr, $u);
