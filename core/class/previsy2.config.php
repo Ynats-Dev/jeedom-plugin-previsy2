@@ -42,8 +42,16 @@ class previsy2_config extends eqLogic {
             $return["alertes"]["pluie"] = 1;
         }
         
+        if ($_eqLogic->getConfiguration("no_pluie") == 1) {
+            $return["alertes"]["no_pluie"] = 1;
+        }
+        
         if ($_eqLogic->getConfiguration("neige") == 1) {
             $return["alertes"]["neige"] = 1;
+        }
+        
+        if ($_eqLogic->getConfiguration("no_neige") == 1) {
+            $return["alertes"]["no_neige"] = 1;
         }
         
         $vent = $_eqLogic->getConfiguration("seuilVent", NULL);

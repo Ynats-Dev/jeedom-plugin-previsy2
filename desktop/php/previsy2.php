@@ -56,7 +56,7 @@ $type_degre = config::byKey('type_degre', 'previsy2', "°C");
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation"><a href="#" class="eqLogicAction" aria-controls="home" role="tab" data-toggle="tab" data-action="returnToThumbnailDisplay"><i class="fa fa-arrow-circle-left"></i></a></li>
             <li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fas fa-tachometer-alt"></i> {{Equipement}}</a></li>
-            <li role="presentation"><a href="#alertestab" aria-controls="home" role="tab" data-toggle="tab"><i class="fas fa-tachometer-alt"></i> {{Les alertes}}</a></li>
+            <li role="presentation"><a href="#alertestab" aria-controls="home" role="tab" data-toggle="tab"><i class="fas fa-exclamation-triangle"></i> {{Les alertes}}</a></li>
             <li role="presentation"><a href="#commandtab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Commandes}}</a></li>
         </ul>
         <div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
@@ -151,21 +151,62 @@ $type_degre = config::byKey('type_degre', 'previsy2', "°C");
                         
                         <div class="form-group" style="margin-top: 15px;">
                             <div class="col-sm-7">
-                                <div style="background-color: #039be5; padding: 2px 5px; color: white; margin: 10px 0; font-weight: bold;">Alertes liées aux types d'averses</div>
+                                <div style="background-color: #039be5; padding: 2px 5px; color: white; margin: 10px 0; font-weight: bold;">Message à afficher au moment de l'alerte.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label class="col-sm-3 control-label">{{Message}}</label>
+                            <div class="col-sm-3">
+                                <textarea type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="message_alerte"></textarea>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                    
+                    <fieldset>
+                        
+                        <div class="form-group" style="margin-top: 15px;">
+                            <div class="col-sm-7">
+                                <div style="background-color: #039be5; padding: 2px 5px; color: white; margin: 10px 0; font-weight: bold;">Alertes liées à la pluie</div>
                             </div>
                         </div>
                         
                         <div class="form-group" style="margin-top: 15px;">
                             <label class="col-sm-3 control-label">{{Alerte s'il pleut}}</label>
                             <div class="col-sm-3">
-                                <input type="checkbox" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="pluie">
+                                <input type="checkbox" class="eqLogicAttr form-control previsy2_pluie" data-l1key="configuration" data-l2key="pluie" onclick="on_pluie()">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label class="col-sm-3 control-label">{{Alerte s'il ne pleut pas}}
+                            <sup><i class="fa fa-question-circle tooltips" title="{{A ne renseigner que si vous souhaitez recevoir une alerte s'il ne pleut pas (ex. Revevoir une alerte pour faire de la voile quand il y a du vent et qu'il ne pleut pas)}}"></i></sup>
+                            </label>
+                            <div class="col-sm-3">
+                                <input type="checkbox" class="eqLogicAttr form-control previsy2_no_pluie" data-l1key="configuration" data-l2key="no_pluie" onclick="on_no_pluie()">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 15px;">
+                            <div class="col-sm-7">
+                                <div style="background-color: #039be5; padding: 2px 5px; color: white; margin: 10px 0; font-weight: bold;">Alertes liées à la neige</div>
                             </div>
                         </div>
                         
                         <div class="form-group" style="margin-top: 15px;">
                             <label class="col-sm-3 control-label">{{Alerte s'il neige}}</label>
                             <div class="col-sm-3">
-                                <input type="checkbox" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="neige">
+                                <input type="checkbox" class="eqLogicAttr form-control previsy2_neige" data-l1key="configuration" data-l2key="neige" onclick="on_neige()">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label class="col-sm-3 control-label">{{Alerte s'il ne neige pas}}
+                            <sup><i class="fa fa-question-circle tooltips" title="{{A ne renseigner que si vous souhaitez recevoir une alerte s'il ne neige pas (ex. Revevoir une alerte pour allez faire du ski quand il ne neige pas.)}}"></i></sup>
+                            </label>
+                            <div class="col-sm-3">
+                                <input type="checkbox" class="eqLogicAttr form-control previsy2_no_neige" data-l1key="configuration" data-l2key="no_neige" onclick="on_no_neige()">
                             </div>
                         </div>
 
@@ -175,7 +216,7 @@ $type_degre = config::byKey('type_degre', 'previsy2', "°C");
                         
                         <div class="form-group">
                             <div class="col-sm-7">
-                                <div style="background-color: #039be5; padding: 2px 5px; color: white; margin: 10px 0; font-weight: bold;">Alertes liées au vent</div>
+                                <div style="background-color: #039be5; padding: 2px 5px; color: white; margin: 10px 0; font-weight: bold;">Alertes liées au vent (conditions cumulables)</div>
                             </div>
                         </div>
                         
@@ -184,15 +225,17 @@ $type_degre = config::byKey('type_degre', 'previsy2', "°C");
                             <div class="col-sm-3">
                                 <select class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="seuilVent">
                                     <option value="">{{Pas d'alertes liées à la forte du vent}}</option>
-                                    <option value="20">{{[Force 4] Moyenne du vent à partir de 20 km/h (Jolie brise)}}</option>
-                                    <option value="29">{{[Force 5] Moyenne du vent à partir de 29 km/h (Bonne brise)}}</option>
-                                    <option value="39">{{[Force 6] Moyenne du vent à partir de 39 km/h (Vent frais)}}</option>
-                                    <option value="50">{{[Force 7] Moyenne du vent à partir de 50 km/h (Grand frais)}}</option>
-                                    <option value="62">{{[Force 8] Moyenne du vent à partir de 62 km/h (Coup de vent)}}</option>
-                                    <option value="75">{{[Force 9] Moyenne du vent à partir de 75 km/h (Fort coup de vent)}}</option>
-                                    <option value="89">{{[Force 10] Moyenne du vent à partir de 89 km/h (Tempête)}}</option>
-                                    <option value="103">{{[Force 11] Moyenne du vent à partir de 103 km/h (Violente tempête)}}</option>
-                                    <option value="118">{{[Force 12] Moyenne du vent à partir de 118 km/h (Ouragan)}}</option>
+                                    <option value="2">{{[Force 2] Alerte à partir de 6 km/h (Légère brise)}}</option>
+                                    <option value="3">{{[Force 3] Alerte à partir de 12 km/h (Petite brise)}}</option>
+                                    <option value="4">{{[Force 4] Alerte à partir de 20 km/h (Jolie brise)}}</option>
+                                    <option value="5">{{[Force 5] Alerte à partir de 29 km/h (Bonne brise)}}</option>
+                                    <option value="6">{{[Force 6] Alerte à partir de 39 km/h (Vent frais)}}</option>
+                                    <option value="7">{{[Force 7] Alerte à partir de 50 km/h (Grand frais)}}</option>
+                                    <option value="8">{{[Force 8] Alerte à partir de 62 km/h (Coup de vent)}}</option>
+                                    <option value="9">{{[Force 9] Alerte à partir de 75 km/h (Fort coup de vent)}}</option>
+                                    <option value="10">{{[Force 10] Alerte à partir de 89 km/h (Tempête)}}</option>
+                                    <option value="11">{{[Force 11] Alerte à partir de 103 km/h (Violente tempête)}}</option>
+                                    <option value="12">{{[Force 12] Alerte à partir de 118 km/h (Ouragan)}}</option>
                                 </select>
                             </div>
                         </div>
@@ -292,17 +335,21 @@ $type_degre = config::byKey('type_degre', 'previsy2', "°C");
                             </div>
                         </div>
                         
+                        <div class="form-group" style="margin-top: 15px;display: none;" id="previsy2_verif_temp">
+                            <div class="col-sm-6" style="color: red;" id="previsy2_verif_temp_txt"></div>
+                        </div>
+                        
                         <div class="form-group" style="margin-top: 15px;">
                             <label class="col-sm-3 control-label">{{Alerte si la température est en dessous de ...}}</label>
                             <div class="col-sm-3">
-                                <input type="text" class="eqLogicAttr form-control" style="width:100px;" data-l1key="configuration" data-l2key="temperatureMin" placeholder="10" /> <?php echo $type_degre ?> 
+                                <input onchange="verif_temp()" type="text" class="eqLogicAttr form-control" style="width:100px;" data-l1key="configuration" data-l2key="temperatureMin" placeholder="10" /> <?php echo $type_degre ?> 
                             </div>
                         </div>
                         
                         <div class="form-group" style="margin-top: 15px;">
                             <label class="col-sm-3 control-label">{{Alerte si la température est au dessus de ...}}</label>
                             <div class="col-sm-3">
-                                <input type="text" class="eqLogicAttr form-control" style="width:100px;" data-l1key="configuration" data-l2key="temperatureMax" placeholder="30" /> <?php echo $type_degre ?> 
+                                <input onchange="verif_temp()" type="text" class="eqLogicAttr form-control" style="width:100px;" data-l1key="configuration" data-l2key="temperatureMax" placeholder="30" /> <?php echo $type_degre ?> 
                             </div>
                         </div>
 
@@ -316,17 +363,21 @@ $type_degre = config::byKey('type_degre', 'previsy2', "°C");
                             </div>
                         </div>
                         
+                        <div class="form-group" style="margin-top: 15px;display: none;" id="previsy2_verif_temp_refroid">
+                            <div class="col-sm-6" style="color: red;" id="previsy2_verif_temp_refroid_txt"></div>
+                        </div>
+                        
                         <div class="form-group" style="margin-top: 15px;">
                             <label class="col-sm-3 control-label">{{Alerte si la température ressentie est en dessous de ...}}</label>
                             <div class="col-sm-3">
-                                <input type="text" class="eqLogicAttr form-control" style="width:100px;" data-l1key="configuration" data-l2key="refroidissementMin" placeholder="10" /> <?php echo $type_degre ?>
+                                <input onchange="verif_temp_refroid()" type="text" class="eqLogicAttr form-control" style="width:100px;" data-l1key="configuration" data-l2key="refroidissementMin" placeholder="10" /> <?php echo $type_degre ?>
                             </div>
                         </div>
                         
                         <div class="form-group" style="margin-top: 15px;">
                             <label class="col-sm-3 control-label">{{Alerte si la température ressentie est au dessus de ...}}</label>
                             <div class="col-sm-3">
-                                <input type="text" class="eqLogicAttr form-control" style="width:100px;" data-l1key="configuration" data-l2key="refroidissementMax" placeholder="30" /> <?php echo $type_degre ?> 
+                                <input onchange="verif_temp_refroid()" type="text" class="eqLogicAttr form-control" style="width:100px;" data-l1key="configuration" data-l2key="refroidissementMax" placeholder="30" /> <?php echo $type_degre ?> 
                             </div>
                         </div>
 
@@ -340,17 +391,21 @@ $type_degre = config::byKey('type_degre', 'previsy2', "°C");
                             </div>
                         </div>
                         
+                        <div class="form-group" style="margin-top: 15px;display: none;" id="previsy2_verif_humide">
+                            <div class="col-sm-6" style="color: red;" id="previsy2_verif_humide_txt"></div>
+                        </div>
+                        
                         <div class="form-group" style="margin-top: 15px;">
                             <label class="col-sm-3 control-label">{{Alerte si en dessous de ...}}</label>
                             <div class="col-sm-3">
-                                <input type="text" class="eqLogicAttr form-control" style="width:100px;" data-l1key="configuration" data-l2key="humiditeMin" placeholder="60" /> % d'humidité 
+                                <input onchange="verif_humide()" type="text" class="eqLogicAttr form-control" style="width:100px;" data-l1key="configuration" data-l2key="humiditeMin" placeholder="60" /> % d'humidité 
                             </div>
                         </div>
                         
                         <div class="form-group" style="margin-top: 15px;">
                             <label class="col-sm-3 control-label">{{Alerte si au dessus de ...}}</label>
                             <div class="col-sm-3">
-                                <input type="text" class="eqLogicAttr form-control" style="width:100px;" data-l1key="configuration" data-l2key="humiditeMax" placeholder="80" /> % d'humidité 
+                                <input onchange="verif_humide()" type="text" class="eqLogicAttr form-control" style="width:100px;" data-l1key="configuration" data-l2key="humiditeMax" placeholder="80" /> % d'humidité 
                             </div>
                         </div>
 
@@ -364,17 +419,21 @@ $type_degre = config::byKey('type_degre', 'previsy2', "°C");
                             </div>
                         </div>
                         
+                        <div class="form-group" style="margin-top: 15px;display: none;" id="previsy2_verif_pression">
+                            <div class="col-sm-6" style="color: red;" id="previsy2_verif_pression_txt"></div>
+                        </div>
+                        
                         <div class="form-group" style="margin-top: 15px;">
                             <label class="col-sm-3 control-label">{{Alerte si en dessous de hPa de Pression}}</label>
                             <div class="col-sm-3">
-                                <input type="text" class="eqLogicAttr form-control" style="width:100px;" data-l1key="configuration" data-l2key="pressionMin" placeholder="1000" /> hPa 
+                                <input onchange="verif_pression()" type="text" class="eqLogicAttr form-control" style="width:100px;" data-l1key="configuration" data-l2key="pressionMin" placeholder="1000" /> hPa 
                             </div>
                         </div>
                         
                         <div class="form-group" style="margin-top: 15px;">
                             <label class="col-sm-3 control-label">{{Alerte si au dessus de hPa de Pression}}</label>
                             <div class="col-sm-3">
-                                <input type="text" class="eqLogicAttr form-control" style="width:100px;" data-l1key="configuration" data-l2key="pressionMax" placeholder="1050" /> hPa 
+                                <input onchange="verif_pression()" type="text" class="eqLogicAttr form-control" style="width:100px;" data-l1key="configuration" data-l2key="pressionMax" placeholder="1050" /> hPa 
                             </div>
                         </div>
 

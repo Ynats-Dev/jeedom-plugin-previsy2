@@ -10,7 +10,7 @@ class previsy2_constructData extends eqLogic {
 
         $return["execution"] = $_array["execution"];
 
-        $return["execution"]["script"]["date"] = intval(date("Ymdh"));
+        $return["execution"]["script"]["date"] = intval(date("YmdH"));
 
         $return["infos_localisation"] = $_array["infos_localisation"];
 
@@ -22,7 +22,7 @@ class previsy2_constructData extends eqLogic {
 
             foreach ($arrayJour["heures"] as $heures => $valHeures) {
 
-                if (!empty($valHeures["date"]) AND $return["execution"]["script"]["date"] <= $valHeures["date"]) {
+                if (!empty($valHeures["date"]) AND $return["execution"]["script"]["date"] <= $valHeures["date"]) { 
 
                     $match = 0;
 
@@ -30,14 +30,23 @@ class previsy2_constructData extends eqLogic {
                     if (isset($_config["pluie"]) AND $_config["pluie"] == 1 AND $valHeures["pluie"] > 0) {
                         $match++;
                     }
+                    
+                    if (isset($_config["no_pluie"]) AND $_config["no_pluie"] == 1 AND $valHeures["pluie"] == 0) {
+                        $match++;
+                    }
 
                     // Alerte Neige
                     if (isset($_config["neige"]) AND $_config["neige"] == 1 AND $valHeures["neige"] > 0) {
                         $match++;
                     }
+                    
+                    if (isset($_config["no_neige"]) AND $_config["no_neige"] == 1 AND $valHeures["neige"] == 0) {
+                        $match++;
+                    }
+                    
 
                     // Alertes Vent
-                    if (isset($_config["vent"]) AND previsy2_tools::seuilVentBeaufort($valHeures["vent_10m"]) >= $_config["vent_dir"]) {
+                    if (isset($_config["vent"]) AND previsy2_tools::seuilVentBeaufort($valHeures["vent_10m"]) >= $_config["vent"]) {
                         $match++;
                     }
 
@@ -110,7 +119,13 @@ class previsy2_constructData extends eqLogic {
         if (!empty($_config["pluie"])) {
             $return++;
         }
+        if (!empty($_config["no_pluie"])) {
+            $return++;
+        }
         if (!empty($_config["neige"])) {
+            $return++;
+        }
+        if (!empty($_config["no_neige"])) {
             $return++;
         }
         if (!empty($_config["temperature_min"])) {
@@ -154,7 +169,9 @@ class previsy2_constructData extends eqLogic {
         $return["date"] = self::dataCompose($_old, "date", $_valHeures["date"]);
         $return["id_condition"] = self::dataCompose($_old, "id_condition", $_valHeures["id_condition"]);
         $return["pluie"] = self::dataCompose($_old, "pluie", $_valHeures["pluie"]);
+        $return["no_pluie"] = self::dataCompose($_old, "vpluie", $_valHeures["no_pluie"]);
         $return["neige"] = self::dataCompose($_old, "neige", $_valHeures["neige"]);
+        $return["no_neige"] = self::dataCompose($_old, "no_neige", $_valHeures["no_neige"]);
         $return["refroidissement-eolien"] = self::dataCompose($_old, "refroidissement-eolien", $_valHeures["refroidissement-eolien"]);
         $return["temperature"] = self::dataCompose($_old, "temperature", $_valHeures["temperature"]);
         $return["humidite_pourc"] = self::dataCompose($_old, "humidite_pourc", $_valHeures["humidite_pourc"]);
@@ -172,8 +189,6 @@ class previsy2_constructData extends eqLogic {
     }
 
     public static function dataCompose($_array, $_key, $_value) {
-
-        //return previsy2_tools::arrayPush($_array, $_key, $_value);
 
         if (empty($_array[$_key]["data"])) {
             $_array[$_key]["data"] = $_array[$_key]["stats"] = array();
@@ -197,7 +212,17 @@ class previsy2_constructData extends eqLogic {
                 $return["stats"]["max"] = round(max($return["data"]), 2);
                 $return["stats"]["moyenne"] = previsy2_tools::getMoyenne($return["data"]);
                 break;
+            case "no_pluie":
+                $return["stats"]["min"] = round(min($return["data"]), 2);
+                $return["stats"]["max"] = round(max($return["data"]), 2);
+                $return["stats"]["moyenne"] = previsy2_tools::getMoyenne($return["data"]);
+                break;
             case "neige":
+                $return["stats"]["min"] = round(min($return["data"]), 2);
+                $return["stats"]["max"] = round(max($return["data"]), 2);
+                $return["stats"]["moyenne"] = previsy2_tools::getMoyenne($return["data"]);
+                break;
+            case "no_neige":
                 $return["stats"]["min"] = round(min($return["data"]), 2);
                 $return["stats"]["max"] = round(max($return["data"]), 2);
                 $return["stats"]["moyenne"] = previsy2_tools::getMoyenne($return["data"]);
